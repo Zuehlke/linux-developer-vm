@@ -6,5 +6,10 @@ echo ""
 echo "Updating the VM..."
 echo ""
 
-cd $REPO_DIR/cookbooks
-chef-client -z --runlist vm
+cd $REPO_DIR/cookbooks/vm
+
+# install cookbook dependencies
+berks vendor ./cookbooks
+
+# run chef-zero
+sudo chef-client -z --runlist vm

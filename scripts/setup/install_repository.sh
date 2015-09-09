@@ -8,7 +8,7 @@ echo "Copying the repository to $TARGET_DIR..."
 echo ""
 
 # get a fresh copy of the whole repo
-rm -rf $TARGET_DIR
+sudo rm -rf $TARGET_DIR
 cp -r /vagrant $TARGET_DIR
 
 # clean up unwanted state files
