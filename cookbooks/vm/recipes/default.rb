@@ -4,4 +4,9 @@
 #
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
-log "hoooray!"
+include_recipe 'vm::base'
+
+#
+# TODO:
+#  - add and include your own recipes here
+#
