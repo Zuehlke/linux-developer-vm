@@ -23,6 +23,9 @@ Vagrant::configure("2") do |config|
       vbox.gui = true
     end
 
+    # install ChefDK
+    devbox_config.vm.provision :shell, path: "scripts/install_chefdk.sh"
+
     # TODO
     # - copy cb dir
     # - berkshelf
@@ -30,9 +33,6 @@ Vagrant::configure("2") do |config|
     # - run update.sh
     #
     devbox_config.vm.provision :shell, inline: <<-EOH
-      mkdir -p /tmp/vagrant-cache/vagrant_omnibus
-      wget -nc -O /tmp/vagrant-cache/vagrant_omnibus/chefdk_0.7.0-1_amd64.deb https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.7.0-1_amd64.deb
-      (chef -v | grep 0.7.0) || sudo dpkg -i /tmp/vagrant-cache/vagrant_omnibus/chefdk_0.7.0-1_amd64.deb
       echo "running chef"
       cd /vagrant/cookbooks
       chef-client -z --runlist vm
