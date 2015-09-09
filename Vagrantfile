@@ -23,19 +23,13 @@ Vagrant::configure("2") do |config|
       vbox.gui = true
     end
 
-    # install ChefDK
-    devbox_config.vm.provision :shell, path: "scripts/install_chefdk.sh"
+    # Setup:
+    #  - install ChefDK inside the VM
+    #  - install THIS repository into the VM
+    devbox_config.vm.provision :shell, privileged: false, path: "scripts/setup/install_chefdk.sh"
+    devbox_config.vm.provision :shell, privileged: false, path: "scripts/setup/install_repository.sh"
 
-    # TODO
-    # - copy cb dir
-    # - berkshelf
-    # - cat heredoc to update.sh on Desktop
-    # - run update.sh
-    #
-    devbox_config.vm.provision :shell, inline: <<-EOH
-      echo "running chef"
-      cd /vagrant/cookbooks
-      chef-client -z --runlist vm
-    EOH
+    # Update the VM via Chef
+    devbox_config.vm.provision :shell, privileged: false, inline: "/home/vagrant/setup/scripts/update-vm.sh"
   end
 end
