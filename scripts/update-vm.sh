@@ -12,4 +12,4 @@ cd $REPO_DIR/cookbooks/vm
 berks vendor ./cookbooks
 
 # run chef-zero
-sudo chef-client -z --runlist vm
+sudo chef-client --local-mode --format=doc --force-formatter --runlist=vm
