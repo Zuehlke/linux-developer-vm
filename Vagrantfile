@@ -23,10 +23,7 @@ Vagrant::configure("2") do |config|
       vbox.gui = true
     end
 
-    # Setup: install ChefDK inside the VM
-    devbox_config.vm.provision "install", type: "shell", privileged: false, path: "scripts/setup/install_chefdk.sh"
-
-    # Trigger the Chef run, from within the VM
-    devbox_config.vm.provision "update", type: "shell", privileged: false, inline: "/vagrant/scripts/update-vm.sh"
+    # Install ChefDK and trigger the Chef run from within the VM
+    devbox_config.vm.provision "shell", privileged: false, inline: "/vagrant/scripts/update-vm.sh"
   end
 end
