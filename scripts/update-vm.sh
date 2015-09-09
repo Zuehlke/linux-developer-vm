@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_DIR="/home/vagrant/setup"
+REPO_DIR="/vagrant"
 
 echo ""
 echo "Updating the VM..."

@@ -23,13 +23,10 @@ Vagrant::configure("2") do |config|
       vbox.gui = true
     end
 
-    # Setup:
-    #  - install ChefDK inside the VM
-    #  - install THIS repository into the VM
+    # Setup: install ChefDK inside the VM
     devbox_config.vm.provision :shell, privileged: false, path: "scripts/setup/install_chefdk.sh"
-    devbox_config.vm.provision :shell, privileged: false, path: "scripts/setup/install_repository.sh"
 
     # Update the VM via Chef
-    devbox_config.vm.provision :shell, privileged: false, inline: "/home/vagrant/setup/scripts/update-vm.sh"
+    devbox_config.vm.provision :shell, privileged: false, inline: "/vagrant/scripts/update-vm.sh"
   end
 end
