@@ -73,7 +73,7 @@ $ vagrant up
 
 Now you have to copy the repository from the shared folder into the VM:
 ```
-$ vagrant ssh -c "cp -r /vagrant /home/vagrant/setup"
+$ vagrant ssh -c "cp -r /vagrant /home/vagrant/vm-setup"
 ```
 
 You should also unmount the shared folders now:
@@ -81,7 +81,7 @@ You should also unmount the shared folders now:
 $ vagrant ssh -c "sudo umount /vagrant"
 ```
 
-Clean up for a minimal export image:
+Optionally, you may want to clean out the VM for a minimal export image:
 ```
 $ vagrant ssh -c "wget -qO- https://raw.githubusercontent.com/boxcutter/ubuntu/master/script/cleanup.sh | sudo bash"
 ```
