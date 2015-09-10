@@ -2,7 +2,8 @@
 
 CHEFDK_VERSION="0.7.0"
 TARGET_DIR="/tmp/vagrant-cache/wget"
-CURRENT_DIR="$(readlink -f $(dirname ${BASH_SOURCE[0]}))"
+SCRIPT_FILE="$(readlink -f ${BASH_SOURCE[0]})"
+CURRENT_DIR="$(dirname $SCRIPT_FILE)"
 
 echo ""
 echo "Checking ChefDK..."
@@ -17,6 +18,11 @@ else
     https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_$CHEFDK_VERSION-1_amd64.deb
   sudo dpkg -i $TARGET_DIR/chefdk_$CHEFDK_VERSION-1_amd64.deb
 fi
+
+echo ""
+echo "Symlinking self as 'update-vm'..."
+
+sudo ln -sf $SCRIPT_FILE /usr/local/bin/update-vm
 
 echo ""
 echo "Updating the VM..."
