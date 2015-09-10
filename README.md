@@ -26,7 +26,7 @@ In short:
  1. fork it
  2. customize it
  3. package it
- 4. use it
+ 4. run it
 
 ### Fork It
 
@@ -63,27 +63,50 @@ Now rinse and repeat until you have a first version of your customized developer
 ### Package It
 
 Whenever you have a state ready enough for distributing it to your developers,
-you can package / export it as a VirtualBox image:
+you can package / export it as a VirtualBox image.
+
+First, start from a clean state:
 ```
-vagrant box package...
+$ vagrant destroy -f
+$ vagrant up
 ```
 
-TO BE DONE:
+Now you have to copy the repository from the shared folder into the VM:
+```
+$ vagrant ssh -c "cp -r /vagrant /home/vagrant/setup"
+```
 
- * clean vagrant up
- * copy repo to home dir
- * unmount shared folders
- * empty out remaining disk space
- * ...
+You should also unmount the shared folders now:
+```
+$ vagrant ssh -c "sudo umount /vagrant"
+```
 
-Packer? Or just plain Vagrant? Or even plain VirtualBox?
+Clean up for a minimal export image:
+```
+$ vagrant ssh -c "wget -qO- https://raw.githubusercontent.com/boxcutter/ubuntu/master/script/cleanup.sh | sudo bash"
+```
 
-### Use It
+Finally, export the VM as an .ova file:
+```
+$ vagrant halt
+$ VBoxManage export dev-box --output "dev-box-v0.1.ova" --options manifest,nomacs
+```
+
+
+### Run It
 
 As a developer using the VM you typically:
 
- * log in using vagrant / vagrant
- * regularly update the VM via `git pull && update-vm.sh`
+ * import the .ova into VirtualBox (File -> Import Appliance...)
+ * start th VM and log in using vagrant / vagrant
+ * hack on some development stuff
+
+At certain points in time you may want to update the VM:
+```
+$ cd /home/vagrant/setup
+$ git pull
+$ scripts/update-vm.sh
+```
 
 
 ## Keyboard Layout
