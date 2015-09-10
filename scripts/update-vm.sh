@@ -2,7 +2,7 @@
 
 CHEFDK_VERSION="0.7.0"
 TARGET_DIR="/tmp/vagrant-cache/wget"
-REPO_DIR="/vagrant"
+CURRENT_DIR="$(readlink -f $(dirname ${BASH_SOURCE[0]}))"
 
 echo ""
 echo "Checking ChefDK..."
@@ -22,7 +22,7 @@ echo ""
 echo "Updating the VM..."
 echo ""
 
-cd $REPO_DIR/cookbooks/vm
+cd $CURRENT_DIR/../cookbooks/vm
 
 # install cookbook dependencies
 berks vendor ./cookbooks
