@@ -6,7 +6,8 @@ A minimal example / template project for a Chef-managed Linux developer VM.
 It consists of two main parts:
 
  * the `update-vm.sh` script, which makes sure that [ChefDK](https://downloads.chef.io/chef-dk/)
-   is installed (you need to have Chef and Berkshelf available) and triggers a Chef run.
+   is installed (you need to have Chef and Berkshelf available) and triggers the Chef run
+   for updating the VM.
  * the `cookbooks/vm` cookbook, which contains the recipes to be applied to the VM.
    All your specific customizations go in there!
 
@@ -16,8 +17,8 @@ As a developer using the final product (i.e. the resulting developer VM) you
 only need a VM host like [VirtualBox](http://virtualbox.org/wiki/Downloads)
 installed.
 
-As the guy who will be building and customizing the developer VM you will additionally
-need [Vagrant](http://www.vagrantup.com/) and [Ruby](https://www.ruby-lang.org/) installed.
+As the guy who will be building and customizing the initial developer VM package
+you will additionally need [Vagrant](http://www.vagrantup.com/) installed.
 
 ## Usage
 
@@ -41,7 +42,8 @@ $ vagrant up
 
 Now it gets a bit more Cheffy. The typical tasks are:
 
- * add a new recipe to `cookbooks/vm/recipes` and include it in the `default.rb` recipe
+ * add a new recipe to `cookbooks/vm/recipes`
+ * include it in the `default.rb` recipe
  * if you want to reuse existing cookbooks from [the supermarket](https://supermarket.chef.io/),
    add the dependencies to `cookbooks/vm/metadata.rb` so that Berkshelf can resolve it
  * for whatever you do, add a test in `cookbooks/vm/test/integration`
@@ -98,7 +100,7 @@ $ VBoxManage export dev-box --output "dev-box-v0.1.ova" --options manifest,nomac
 As a developer using the VM you typically:
 
  * import the .ova into VirtualBox (File -> Import Appliance...)
- * start th VM and log in using vagrant / vagrant
+ * start the VM and log in using "vagrant" / "vagrant"
  * hack on some development stuff
 
 At certain points in time you may want to update the VM:
