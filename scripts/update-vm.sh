@@ -3,7 +3,7 @@
 CHEFDK_VERSION="0.7.0"
 TARGET_DIR="/tmp/vagrant-cache/wget"
 SCRIPT_FILE="$(readlink -f ${BASH_SOURCE[0]})"
-CURRENT_DIR="$(dirname $SCRIPT_FILE)"
+REPO_ROOT="$(dirname $SCRIPT_FILE)/.."
 
 echo ""
 echo "Checking ChefDK..."
@@ -24,11 +24,21 @@ echo "Symlinking self as 'update-vm'..."
 
 sudo ln -sf $SCRIPT_FILE /usr/local/bin/update-vm
 
+# pull latest changes from Git?
+if [[ "$1" == "--pull" ]]; then
+  echo ""
+  echo "Pulling latest changes from git..."
+  echo ""
+
+  cd $REPO_ROOT
+  git pull
+fi
+
 echo ""
-echo "Updating the VM..."
+echo "Updating the VM via Chef..."
 echo ""
 
-cd $CURRENT_DIR/../cookbooks/vm
+cd $REPO_ROOT/cookbooks/vm
 
 # install cookbook dependencies
 berks vendor ./cookbooks
