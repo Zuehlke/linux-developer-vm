@@ -14,6 +14,7 @@ big_step() {
 }
 step() {
   echo ""
+  echo ""
   echo ">>>>>> $1"
   echo "-------------------------------------"
   echo ""
@@ -69,4 +70,4 @@ foodcritic -f any .
 
 # run integration tests
 step "run integration tests"
-rspec -fd --color -I test/integration test/integration
+rspec -fd --color
