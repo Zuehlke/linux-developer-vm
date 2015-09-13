@@ -46,7 +46,7 @@ Now it gets a bit more Cheffy. The typical tasks are:
  * include it in the `default.rb` recipe
  * if you want to reuse existing cookbooks from [the supermarket](https://supermarket.chef.io/),
    add the dependencies to `cookbooks/vm/metadata.rb` so that Berkshelf can resolve it
- * for whatever you do, add a test in `cookbooks/vm/test/integration`
+ * for whatever you do, add a test in `cookbooks/vm/spec/integration`
 
 Once you have added some Chef recipes, provision the VM to see it in effect:
 ```
