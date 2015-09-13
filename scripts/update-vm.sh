@@ -15,6 +15,7 @@ big_step() {
 step() {
   echo ""
   echo ">>>>>> $1"
+  echo "-------------------------------------"
   echo ""
 }
 
@@ -54,17 +55,18 @@ eval $(chef shell-init bash)
 
 # install cookbook dependencies
 step "install cookbook dependencies"
-rake dependencies
+rm -rf ./cookbooks
+berks vendor ./cookbooks
 
 # converge the system via chef-zero
 step "trigger the chef-zero run"
-rake converge
+sudo chef-client --local-mode --format=doc --force-formatter --color --runlist=vm
 
 # run lint checks
 step "run codestyle checks"
-rake codestyle
-rake foodcritic
+rubocop . --format progress --format offenses
+foodcritic -f any .
 
 # run integration tests
 step "run integration tests"
-rake integration
+rspec -fd --color -I test/integration test/integration
