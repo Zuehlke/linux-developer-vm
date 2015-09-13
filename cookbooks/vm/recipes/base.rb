@@ -31,5 +31,9 @@ For applying the current configuration to the VM:
 For updating to the latest configuration and applying that:
 
   * simply run `update-vm --pull`
+
+For verifying the current configuration without applying anything:
+
+  * simply run `update-vm --verify-only`
 EOF
 end
