@@ -1,6 +1,8 @@
 
 # Linux Developer VM Example
 
+[![Circle CI](https://circleci.com/gh/tknerr/linux-developer-vm/tree/master.svg?style=shield)](https://circleci.com/gh/tknerr/linux-developer-vm/tree/master)
+
 A minimal example / template project for a Chef-managed Linux developer VM.
 
 It consists of two main parts:
