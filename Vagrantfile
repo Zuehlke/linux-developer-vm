@@ -2,7 +2,7 @@
 Vagrant::configure("2") do |config|
 
   #
-  # define the dev-box VM
+  # define the Linux developer VM
   #
   config.vm.define :"linux-devbox" do | devbox_config |
 
