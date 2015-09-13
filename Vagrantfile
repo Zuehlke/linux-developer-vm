@@ -4,13 +4,13 @@ Vagrant::configure("2") do |config|
   #
   # define the dev-box VM
   #
-  config.vm.define :"dev-box2" do | devbox_config |
+  config.vm.define :"linux-devbox" do | devbox_config |
 
     # configure the basebox
     devbox_config.vm.box = "boxcutter/ubuntu1404-desktop"
 
     # hostname
-    devbox_config.vm.hostname = "dev-box2.local"
+    devbox_config.vm.hostname = "linux-devbox.local"
 
     # virtualbox customizations
     devbox_config.vm.provider :virtualbox do |vbox, override|
