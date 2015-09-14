@@ -15,6 +15,14 @@ package 'git' do
   action :install
 end
 
+# make sure it exists (e.g. when running in docker with ubuntu-14.04 image)
+directory '/home/vagrant/Desktop' do
+  owner 'vagrant'
+  group 'vagrant'
+  mode '0755'
+  action :create
+end
+
 file '/home/vagrant/Desktop/README' do
   owner 'vagrant'
   group 'vagrant'
@@ -31,5 +39,9 @@ For applying the current configuration to the VM:
 For updating to the latest configuration and applying that:
 
   * simply run `update-vm --pull`
+
+For verifying the current configuration without applying anything:
+
+  * simply run `update-vm --verify-only`
 EOF
 end

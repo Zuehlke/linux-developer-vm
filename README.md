@@ -1,15 +1,17 @@
 
 # Linux Developer VM Example
 
+[![Circle CI](https://circleci.com/gh/tknerr/linux-developer-vm/tree/master.svg?style=shield)](https://circleci.com/gh/tknerr/linux-developer-vm/tree/master)
+
 A minimal example / template project for a Chef-managed Linux developer VM.
 
 It consists of two main parts:
 
  * the `update-vm.sh` script, which makes sure that [ChefDK](https://downloads.chef.io/chef-dk/)
-   is installed (you need to have Chef and Berkshelf available) and triggers the Chef run
-   for updating the VM.
- * the `cookbooks/vm` cookbook, which contains the recipes to be applied to the VM.
-   All your specific customizations go in there!
+   is installed, triggers the Chef run for updating the VM, and verifies the VM using a suite of
+   [Serverspec](http://serverspec.org/) tests.
+ * the `cookbooks/vm` cookbook, which contains the recipes to be applied to the VM and the
+   tests that come along with it. All your specific customizations go in there!
 
 ## Prerequisites
 
@@ -46,7 +48,7 @@ Now it gets a bit more Cheffy. The typical tasks are:
  * include it in the `default.rb` recipe
  * if you want to reuse existing cookbooks from [the supermarket](https://supermarket.chef.io/),
    add the dependencies to `cookbooks/vm/metadata.rb` so that Berkshelf can resolve it
- * for whatever you do, add a test in `cookbooks/vm/test/integration`
+ * for whatever you do, add a test in `cookbooks/vm/spec/integration`
 
 Once you have added some Chef recipes, provision the VM to see it in effect:
 ```

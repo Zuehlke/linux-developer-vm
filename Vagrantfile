@@ -9,13 +9,18 @@ Vagrant::configure("2") do |config|
     # configure the basebox
     devbox_config.vm.box = "boxcutter/ubuntu1404-desktop"
 
-    # hostname
+    # override the basebox when testing (an approximation) with docker
+    devbox_config.vm.provider :docker do |docker, override|
+      override.vm.box = "tknerr/baseimage-ubuntu-14.04"
+    end
+
+    # set the hostname
     devbox_config.vm.hostname = "linux-devbox.local"
 
     # virtualbox customizations
     devbox_config.vm.provider :virtualbox do |vbox, override|
       vbox.customize ["modifyvm", :id,
-        "--name", "dev-box2",
+        "--name", "linux-devbox",
         "--memory", 512,
         "--cpus", 4
       ]

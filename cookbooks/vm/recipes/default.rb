@@ -7,6 +7,5 @@
 include_recipe 'vm::base'
 
 #
-# TODO:
-#  - add and include your own recipes here
+# TODO: add and include your own recipes here
 #
