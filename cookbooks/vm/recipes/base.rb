@@ -15,6 +15,14 @@ package 'git' do
   action :install
 end
 
+# make sure it exists (e.g. when running in docker with ubuntu-14.04 image)
+directory '/home/vagrant/Desktop' do
+  owner 'vagrant'
+  group 'vagrant'
+  mode '0755'
+  action :create
+end
+
 file '/home/vagrant/Desktop/README' do
   owner 'vagrant'
   group 'vagrant'
