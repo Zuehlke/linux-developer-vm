@@ -28,7 +28,7 @@ check_chefdk() {
   else
     step "Downloading and installing ChefDK $CHEFDK_VERSION"
     mkdir -p $TARGET_DIR
-    wget --quiet -nc -O $TARGET_DIR/chefdk_$CHEFDK_VERSION-1_amd64.deb \
+    wget --no-verbose --no-clobber -O $TARGET_DIR/chefdk_$CHEFDK_VERSION-1_amd64.deb \
       https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_$CHEFDK_VERSION-1_amd64.deb
     sudo dpkg -i $TARGET_DIR/chefdk_$CHEFDK_VERSION-1_amd64.deb
   fi
