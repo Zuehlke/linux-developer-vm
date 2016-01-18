@@ -5,113 +5,81 @@
 
 A minimal example / template project for a Chef-managed Linux developer VM.
 
-It consists of two main parts:
+![Linux Developer VM Screenshot](https://raw.github.com/Zuehlke/linux-developer-vm/master/linux_devbox.png)
 
- * the `update-vm.sh` script, which makes sure that [ChefDK](https://downloads.chef.io/chef-dk/)
-   is installed, triggers the Chef run for updating the VM, and verifies the VM using a suite of
-   [Serverspec](http://serverspec.org/) tests.
- * the `cookbooks/vm` cookbook, which contains the recipes to be applied to the VM and the
-   tests that come along with it. All your specific customizations go in there!
+It's meant to be copy/pasted and filled with life. The `cookbooks/vm` directory
+contains the recipes for setting up the VM and the tests that come along with it.
+All your specific customizations go in there!
+
+Looking for some more concrete / real life examples?
+
+ * https://github.com/tknerr/linus-kitchen
+ * https://github.com/Zuehlke/java-developer-vm
 
 ## Prerequisites
 
-As a developer using the final product (i.e. the resulting developer VM) you
-only need a VM host like [VirtualBox](http://virtualbox.org/wiki/Downloads)
+You only need [VirtualBox](http://virtualbox.org/wiki/Downloads) and [Vagrant](http://www.vagrantup.com/)
 installed.
 
-As the guy who will be building and customizing the initial developer VM package
-you will additionally need [Vagrant](http://www.vagrantup.com/) installed.
+All other requirements, along with ChefDK and Git will be installed *inside the Vagrant VM* during provisioning, i.e. you don't need them installed on your host machine.
 
-## Usage
+## Basic Usage
 
-In short:
-
- 1. fork it
- 2. customize it
- 3. package it
- 4. run it
-
-### Fork It
-
-Well, that's easy. The "Fork" button is right there...
-
-### Customize It
-
-First, you bring up an isolated VM for testing your changes:
+Bring up the example Linux Developer VM:
 ```
 $ vagrant up
 ```
 
-Now it gets a bit more Cheffy. The typical tasks are:
+This will take a while, as it will do quite a few things inside the VM:
 
- * add a new recipe to `cookbooks/vm/recipes`
- * include it in the `default.rb` recipe
- * if you want to reuse existing cookbooks from [the supermarket](https://supermarket.chef.io/),
-   add the dependencies to `cookbooks/vm/metadata.rb` so that Berkshelf can resolve it
- * for whatever you do, add a test in `cookbooks/vm/spec/integration`
+ 1. Download and install [Git](https://git-scm.org/) and [ChefDK](https://downloads.chef.io/chef-dk/)
+ 1. Copy the current directory into the VM (will be placed in `~/vm-setup`)
+ 1. Install cookbook dependencies via [Berkshelf](http://berkshelf.com/) to `~/vm-setup/cookbooks/vm/cookbooks`
+ 1. Trigger a [Chef-Zero](https://www.chef.io/blog/2013/10/31/chef-client-z-from-zero-to-chef-in-8-5-seconds/) run to apply the `~/vm-setup/cookbooks/vm/recipes` to the VM (see "What's included?")
+ 1. Verify the installation using a set of [Serverspec](http://serverspec.org/) tests
 
-Once you have added some Chef recipes, provision the VM to see it in effect:
+Watch the vagrant output on the console for seeing progress. At the end you
+should see all tests passing:
+
 ```
-$ vagrant provision
-```
-
-Whenever something is done:
-```
-$ git add .
-$ git commit -m "added awesome new tool to our developer VM"
-```
-
-Now rinse and repeat until you have a first version of your customized developer VM ready.
-
-
-### Package It
-
-Whenever you have a state ready enough for distributing it to your developers,
-you can package / export it as a VirtualBox image.
-
-First, start from a clean state:
-```
-$ vagrant destroy -f
-$ vagrant up
+...
+==> default:
+==> default: vm::base
+==> default:   installs git
+==> default:   installs vim
+==> default:   places a README on the Desktop
+==> default:
+==> default: Finished in 0.28206 seconds (files took 1.01 seconds to load)
+==> default: 3 examples, 0 failures
+...
 ```
 
-Now you have to copy the repository from the shared folder into the VM:
-```
-$ vagrant ssh -c "cp -r /vagrant /home/vagrant/vm-setup"
-```
+You can now log in to the Desktop (the VM is started in GUI mode):
 
-You should also unmount the shared folders now:
-```
-$ vagrant ssh -c "sudo umount /vagrant"
-```
+ * user: "vagrant"
+ * password: "vagrant"
 
-Optionally, you may want to clean out the VM for a minimal export image:
-```
-$ vagrant ssh -c "wget -qO- https://raw.githubusercontent.com/boxcutter/ubuntu/master/script/cleanup.sh | sudo bash"
-```
+Once logged in, you can open a terminal and you will have all of the tools available (see next section).
 
-Finally, export the VM as an .ova file:
-```
-$ vagrant halt
-$ VBoxManage export dev-box --output "dev-box-v0.1.ova" --options manifest,nomacs
-```
+## What's included?
 
+Only the basic tools, since this is just a minimal developer VM example you should extend on your own:
 
-### Run It
+ * [Git](https://git-scm.org/)
+ * [ChefDK](https://downloads.chef.io/chef-dk/)
+ * [vim](http://www.vim.org/)
 
-As a developer using the VM you typically:
+## Updating the Developer VM
 
- * import the .ova into VirtualBox (File -> Import Appliance...)
- * start the VM and log in using "vagrant" / "vagrant"
- * hack on some development stuff
+Even though you can trigger an update from outside the VM via `vagrant provision`,
+you usually want to do that from *inside the VM* as this is your current working environment.
+The update is done via Chef so it should be fully idempotent.
 
-At certain points in time you may want to update the VM:
-```
-$ cd /home/vagrant/setup
-$ git pull
-$ scripts/update-vm.sh
-```
+You can run these commands from anywhere inside the VM:
 
+* `update-vm` - to apply the Chef recipes of the locally checked out repo in `~/vm-setup`
+* `update-vm --pull` - same as above but update the repo before
+* `update-vm --verify-only` - don't update the VM, only run the Serverspec tests
 
 ## Keyboard Layout
 
@@ -120,12 +88,47 @@ Seems to be too hard to automate for me, so you have to do this manually:
 sudo dpkg-reconfigure keyboard-configuration
 ```
 
+## Packaging
+
+Whenever you feel like distributing a fat VM image rather than a Vagrantfile,
+you can package / export it as a VirtualBox image. This might be useful
+for distributing the initial version of the developer VM to your dev team,
+or simply for preserving checkpoint releases as a binary images.
+
+First, start from a clean state, and make sure vagrant-cachier is disabled:
+```
+$ vagrant destroy -f
+$ export VAGRANT_NO_PLUGINS=1
+$ vagrant up
+```
+
+Next, unmount the /vagrant shared folder (will be restored on next `vagrant up`):
+```
+$ vagrant ssh -c "sudo umount /vagrant"
+```
+
+Also, you may want to clean out the VM for a minimal export image:
+```
+$ vagrant ssh -c "wget -qO- https://raw.githubusercontent.com/boxcutter/ubuntu/master/script/cleanup.sh | sudo bash"
+```
+
+Finally, shutdown the VM, remove the sharedfolder, and export the VM as an .ova file:
+```
+$ vagrant halt
+$ VBoxManage sharedfolder remove "Example Linux Developer VM" --name "vagrant"
+$ VBoxManage export "Example Linux Developer VM" --output "linux-devbox.ova" --options manifest,nomacs
+```
+
+Don't forget to throw away the VM enable vagrant-cachier again:
+```
+$ vagrant destroy -f
+$ unset VAGRANT_NO_PLUGINS
+```
 
 ## Contributing
 
-1. Fork the repository on Github
-2. Create a named feature branch (like `add_component_x`)
-3. Write your change
-4. Write tests for your change (if applicable)
-5. Run the tests, ensuring they all pass
-6. Submit a Pull Request using Github
+ 1. Fork the repository on Github
+ 1. Create a named feature branch (like `add-xyz`)
+ 1. Implement your changes, add tests
+ 1. Commit and push
+ 1. Submit a Pull Request using Github

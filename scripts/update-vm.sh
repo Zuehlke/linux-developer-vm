@@ -2,8 +2,13 @@
 
 CHEFDK_VERSION="0.7.0"
 TARGET_DIR="/tmp/vagrant-cache/wget"
-SCRIPT_FILE="$(readlink -f ${BASH_SOURCE[0]})"
-REPO_ROOT="$(dirname $SCRIPT_FILE)/.."
+REPO_ROOT="/home/vagrant/vm-setup"
+
+# to not run into https://github.com/berkshelf/berkshelf-api/issues/112
+echo "setting locale to en_US.UTF-8"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 big_step() {
   echo ""
@@ -44,9 +49,17 @@ check_git() {
   fi
 }
 
-symlink_self() {
-  big_step "Symlinking 'update-vm'..."
-  sudo ln -sf $SCRIPT_FILE /usr/local/bin/update-vm
+copy_repo_and_symlink_self() {
+  big_step "Copying repo into the VM..."
+  if mountpoint -q /vagrant; then
+    step "Copy /vagrant to $REPO_ROOT"
+    sudo rm -rf $REPO_ROOT
+    cp -r /vagrant $REPO_ROOT
+    step "Symlinking 'update-vm' script"
+    sudo ln -sf $REPO_ROOT/scripts/update-vm.sh /usr/local/bin/update-vm
+  else
+    echo "Skipped because /vagrant not mounted"
+  fi
 }
 
 shell_init() {
@@ -56,7 +69,7 @@ shell_init() {
 }
 
 update_repo() {
-  step "Pulling latest changes from git..."
+  big_step "Pulling latest changes from git..."
   cd $REPO_ROOT
   git pull
 }
@@ -90,7 +103,7 @@ verify_vm() {
 
   # run integration tests
   step "run integration tests"
-  rspec -fd --color
+  rspec --require rspec_junit_formatter --format doc --color --format RspecJunitFormatter --out test/junit-report.xml --format html --out test/test-report.html
 }
 
 #
@@ -99,9 +112,9 @@ verify_vm() {
 if [[ "$1" == "--verify-only" ]]; then
   verify_vm
 else
-  check_chefdk
   check_git
-  symlink_self
+  check_chefdk
+  copy_repo_and_symlink_self
   [[ "$1" == "--pull" ]] && update_repo
   update_vm
   verify_vm
