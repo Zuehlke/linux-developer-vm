@@ -5,13 +5,14 @@
 
 A minimal example / template project for a Chef-managed Linux developer VM.
 
-It consists of two main parts:
+It's meant to be copy/pasted and filled with life. The `cookbooks/vm` directory
+contains the recipes for setting up the VM and the tests that come along with it.
+All your specific customizations go in there!
 
- * the `update-vm.sh` script, which makes sure that [ChefDK](https://downloads.chef.io/chef-dk/)
-   is installed, triggers the Chef run for updating the VM, and verifies the VM using a suite of
-   [Serverspec](http://serverspec.org/) tests.
- * the `cookbooks/vm` cookbook, which contains the recipes to be applied to the VM and the
-   tests that come along with it. All your specific customizations go in there!
+Looking for some more concrete / real life examples?
+
+ * https://github.com/tknerr/linus-kitchen
+ * https://github.com/Zuehlke/java-developer-vm
 
 ## Prerequisites
 
