@@ -5,6 +5,8 @@
 
 A minimal example / template project for a Chef-managed Linux developer VM.
 
+![Linux Developer VM Screenshot](https://raw.github.com/Zuehlke/linux-developer-vm/master/linux_devbox.png)
+
 It's meant to be copy/pasted and filled with life. The `cookbooks/vm` directory
 contains the recipes for setting up the VM and the tests that come along with it.
 All your specific customizations go in there!
@@ -42,11 +44,12 @@ should see all tests passing:
 ```
 ...
 ==> default:
-==> default: update-vm.sh
+==> default: vm::base
 ==> default:   installs git
-==> default:   installs chefdk 0.7.0
+==> default:   installs vim
+==> default:   places a README on the Desktop
 ==> default:
-==> default: Finished in 5.44 seconds (files took 0.81272 seconds to load)
+==> default: Finished in 0.28206 seconds (files took 1.01 seconds to load)
 ==> default: 3 examples, 0 failures
 ...
 ```
