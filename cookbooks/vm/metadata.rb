@@ -10,4 +10,4 @@ source_url 'https://github.com/zuehlke/linux-developer-vm'
 
 supports 'ubuntu'
 
-depends 'apt', '2.8.2'
+depends 'apt', '6.0.1'
