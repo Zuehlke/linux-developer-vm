@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CHEFDK_VERSION="1.3.49"
+CHEFDK_VERSION="1.3.32"
 TARGET_DIR="/tmp/vagrant-cache/wget"
 REPO_ROOT="/home/vagrant/vm-setup"
 
