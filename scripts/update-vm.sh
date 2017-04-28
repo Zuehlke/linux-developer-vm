@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CHEFDK_VERSION="0.7.0"
+CHEFDK_VERSION="1.3.49"
 TARGET_DIR="/tmp/vagrant-cache/wget"
 REPO_ROOT="/home/vagrant/vm-setup"
 
@@ -27,9 +27,10 @@ check_chefdk() {
   else
     step "Downloading and installing ChefDK $CHEFDK_VERSION"
     mkdir -p $TARGET_DIR
-    wget --no-verbose --no-clobber -O $TARGET_DIR/chefdk_$CHEFDK_VERSION-1_amd64.deb \
-      https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_$CHEFDK_VERSION-1_amd64.deb
-    sudo dpkg -i $TARGET_DIR/chefdk_$CHEFDK_VERSION-1_amd64.deb
+    local CHEFDK_DEB=chefdk_$CHEFDK_VERSION-1_amd64.deb
+    local CHEFDK_URL=https://packages.chef.io/files/current/chefdk/$CHEFDK_VERSION/ubuntu/16.04/$CHEFDK_DEB
+    [[ -f $TARGET_DIR/$CHEFDK_DEB ]] || wget -O $TARGET_DIR/$CHEFDK_DEB $CHEFDK_URL
+    sudo dpkg -i $TARGET_DIR/$CHEFDK_DEB
   fi
 }
 
