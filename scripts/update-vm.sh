@@ -1,14 +1,8 @@
 #!/bin/bash
 
-CHEFDK_VERSION="0.7.0"
+CHEFDK_VERSION="1.3.32"
 TARGET_DIR="/tmp/vagrant-cache/wget"
 REPO_ROOT="/home/vagrant/vm-setup"
-
-# to not run into https://github.com/berkshelf/berkshelf-api/issues/112
-echo "setting locale to en_US.UTF-8"
-export LANG="en_US.UTF-8"
-export LANGUAGE="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
 
 big_step() {
   echo ""
@@ -33,9 +27,10 @@ check_chefdk() {
   else
     step "Downloading and installing ChefDK $CHEFDK_VERSION"
     mkdir -p $TARGET_DIR
-    wget --no-verbose --no-clobber -O $TARGET_DIR/chefdk_$CHEFDK_VERSION-1_amd64.deb \
-      https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_$CHEFDK_VERSION-1_amd64.deb
-    sudo dpkg -i $TARGET_DIR/chefdk_$CHEFDK_VERSION-1_amd64.deb
+    local CHEFDK_DEB=chefdk_$CHEFDK_VERSION-1_amd64.deb
+    local CHEFDK_URL=https://packages.chef.io/files/current/chefdk/$CHEFDK_VERSION/ubuntu/16.04/$CHEFDK_DEB
+    [[ -f $TARGET_DIR/$CHEFDK_DEB ]] || wget --no-verbose -O $TARGET_DIR/$CHEFDK_DEB $CHEFDK_URL
+    sudo dpkg -i $TARGET_DIR/$CHEFDK_DEB
   fi
 }
 
@@ -54,7 +49,8 @@ copy_repo_and_symlink_self() {
   if mountpoint -q /vagrant; then
     step "Copy /vagrant to $REPO_ROOT"
     sudo rm -rf $REPO_ROOT
-    cp -r /vagrant $REPO_ROOT
+    sudo cp -r /vagrant $REPO_ROOT
+    sudo chown -R $USER:$USER $REPO_ROOT
     step "Symlinking 'update-vm' script"
     sudo ln -sf $REPO_ROOT/scripts/update-vm.sh /usr/local/bin/update-vm
   else
@@ -65,7 +61,7 @@ copy_repo_and_symlink_self() {
 shell_init() {
   step "init the shell"
   set -e
-  eval $(chef shell-init bash)
+  eval "$(chef shell-init bash)"
 }
 
 update_repo() {
