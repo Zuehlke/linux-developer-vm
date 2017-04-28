@@ -2,11 +2,11 @@
 Vagrant::configure("2") do |config|
 
   # configure the basebox
-  config.vm.box = "boxcutter/ubuntu1404-desktop"
+  config.vm.box = "tknerr/ubuntu1604-desktop"
 
   # override the basebox when testing (an approximation) with docker
   config.vm.provider :docker do |docker, override|
-    override.vm.box = "tknerr/baseimage-ubuntu-14.04"
+    override.vm.box = "tknerr/baseimage-ubuntu-16.04"
   end
 
   # set the hostname
