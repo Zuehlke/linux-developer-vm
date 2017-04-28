@@ -1,6 +1,6 @@
 name 'vm'
-maintainer 'The Authors'
-maintainer_email 'you@example.com'
+maintainer 'Your Name'
+maintainer_email 'your.name@example.com'
 license 'All rights reserved'
 description 'Installs/Configures a sample Linux Developer VM'
 long_description IO.read(File.join(File.dirname(__FILE__), '../../README.md'))
