@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e -o pipefail
 
 CHEFDK_VERSION="1.3.32"
 TARGET_DIR="/tmp/vagrant-cache/wget"
@@ -40,6 +41,7 @@ check_git() {
     echo "Git already installed"
   else
     step "Installing Git"
+    sudo apt-get update
     sudo apt-get install git -y
   fi
 }
