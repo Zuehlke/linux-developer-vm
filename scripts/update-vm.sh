@@ -94,12 +94,12 @@ verify_vm() {
 
   # run lint checks
   step "run codestyle checks"
-  rubocop . --format progress --format offenses --display-cop-names
+  rubocop . --format progress --format offenses --display-cop-names --color
   foodcritic -f any .
 
   # run integration tests
   step "run integration tests"
-  rspec --require rspec_junit_formatter --format doc --color --format RspecJunitFormatter --out test/junit-report.xml --format html --out test/test-report.html
+  rspec --require rspec_junit_formatter --format doc --color --tty --format RspecJunitFormatter --out test/junit-report.xml --format html --out test/test-report.html
 }
 
 #
