@@ -23,7 +23,7 @@ step() {
 
 check_chefdk() {
   big_step "Checking ChefDK..."
-  if [[ $(chef -v | grep $CHEFDK_VERSION) ]]; then
+  if [[ $(head -n1 /opt/chefdk/version-manifest.txt | grep "chefdk $CHEFDK_VERSION") ]]; then
     echo "ChefDK $CHEFDK_VERSION already installed"
   else
     step "Downloading and installing ChefDK $CHEFDK_VERSION"
