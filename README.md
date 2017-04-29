@@ -1,5 +1,5 @@
 
-# Linux Developer VM Example
+# Linux Developer VM Example / Template
 
 [![Circle CI](https://circleci.com/gh/Zuehlke/linux-developer-vm/tree/master.svg?style=shield)](https://circleci.com/gh/Zuehlke/linux-developer-vm/tree/master)
 
