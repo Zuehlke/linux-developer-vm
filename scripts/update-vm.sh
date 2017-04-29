@@ -95,12 +95,11 @@ verify_vm() {
   cd $REPO_ROOT/cookbooks/vm
 
   # run lint checks
-  step "run codestyle checks"
-  rubocop . --format progress --format offenses --display-cop-names --color
+  step "run foodcritic linting checks"
   foodcritic -f any .
 
   # run integration tests
-  step "run integration tests"
+  step "run serverspec integration tests"
   rspec --require rspec_junit_formatter --format doc --color --tty --format RspecJunitFormatter --out test/junit-report.xml --format html --out test/test-report.html
 }
 
