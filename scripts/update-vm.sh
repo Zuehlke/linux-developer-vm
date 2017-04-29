@@ -60,12 +60,6 @@ copy_repo_and_symlink_self() {
   fi
 }
 
-shell_init() {
-  step "init the shell"
-  set -e
-  eval "$(chef shell-init bash)"
-}
-
 update_repo() {
   big_step "Pulling latest changes from git..."
   cd $REPO_ROOT
@@ -75,7 +69,8 @@ update_repo() {
 update_vm() {
   big_step "Updating the VM via Chef..."
 
-  shell_init
+  # init chefdk shell
+  eval "$(chef shell-init bash)"
   cd $REPO_ROOT/cookbooks/vm
 
   # install cookbook dependencies
@@ -91,7 +86,8 @@ update_vm() {
 verify_vm() {
   big_step "Verifying the VM..."
 
-  shell_init
+  # init chefdk shell
+  eval "$(chef shell-init bash)"
   cd $REPO_ROOT/cookbooks/vm
 
   # run lint checks
