@@ -35,17 +35,6 @@ check_chefdk() {
   fi
 }
 
-check_git() {
-  big_step "Checking Git..."
-  if [[ $(which git) ]]; then
-    echo "Git already installed"
-  else
-    step "Installing Git"
-    sudo apt-get update
-    sudo apt-get install git -y
-  fi
-}
-
 copy_repo_and_symlink_self() {
   big_step "Copying repo into the VM..."
   if mountpoint -q /vagrant; then
@@ -104,7 +93,6 @@ verify_vm() {
 if [[ "$1" == "--verify-only" ]]; then
   verify_vm
 else
-  check_git
   check_chefdk
   copy_repo_and_symlink_self
   [[ "$1" == "--pull" ]] && update_repo
