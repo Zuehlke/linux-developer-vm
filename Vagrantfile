@@ -17,7 +17,7 @@ Vagrant::configure("2") do |config|
     vbox.customize ["modifyvm", :id,
       "--name", "Example Linux Developer VM",
       "--memory", 512,
-      "--cpus", 4
+      "--cpus", Etc.nprocessors
     ]
     # yes we have a gui
     vbox.gui = true
