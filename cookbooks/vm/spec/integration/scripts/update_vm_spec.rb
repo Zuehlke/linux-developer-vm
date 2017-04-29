@@ -13,7 +13,7 @@ describe 'update-vm.sh' do
     expect(command('chef --version').stdout).to contain 'Chef Development Kit Version: 1.3.32'
   end
 
-  it 'does not leave any root owned files under the user\'s home directory' do
-    expect(command('find /home/vagrant -type d -maxdepth 1 -user root').stdout).to be_empty
+  it 'symlinks the update-vm script to /usr/local/bin/' do
+    expect(file('/usr/local/bin/update-vm')).to be_linked_to '/home/vagrant/vm-setup/scripts/update-vm.sh'
   end
 end
