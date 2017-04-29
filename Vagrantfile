@@ -17,14 +17,14 @@ Vagrant::configure("2") do |config|
     vbox.customize ["modifyvm", :id,
       "--name", "Example Linux Developer VM",
       "--memory", 512,
-      "--cpus", 4
+      "--cpus", Etc.nprocessors
     ]
     # yes we have a gui
     vbox.gui = true
   end
 
   # Install ChefDK and trigger the Chef run from within the VM
-  config.vm.provision "shell", privileged: false, inline: "/vagrant/scripts/update-vm.sh"
+  config.vm.provision "shell", privileged: false, keep_color: true, inline: "/vagrant/scripts/update-vm.sh"
   # Logout any existing GUI session to force the use to re-login, which is required
   # for group or keyboard layout changes to take effect
   config.vm.provision "shell", privileged: true, inline: "pkill -KILL -u vagrant; true"
@@ -32,7 +32,7 @@ Vagrant::configure("2") do |config|
   # Ensure we cache as much as possible
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.enable :generic, {
-      "chef_file_cache" => { cache_dir: "/home/vagrant/.chef/local-mode-cache/cache" }
+      "chef_file_cache" => { cache_dir: "/root/.chef/local-mode-cache/cache" }
     }
   end
 end
