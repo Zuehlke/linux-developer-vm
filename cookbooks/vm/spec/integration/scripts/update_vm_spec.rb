@@ -10,7 +10,7 @@ describe 'update-vm.sh' do
   end
 
   it 'installs chefdk 1.3.32' do
-    expect(command('chef --version').stdout).to contain 'Chef Development Kit Version: 1.3.32'
+    expect(file('/opt/chefdk/version-manifest.txt')).to contain 'chefdk 1.3.32'
   end
 
   it 'symlinks the update-vm script to /usr/local/bin/' do
