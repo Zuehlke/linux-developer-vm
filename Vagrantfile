@@ -10,12 +10,12 @@ Vagrant::configure("2") do |config|
   end
 
   # set the hostname
-  config.vm.hostname = "linux-devbox.local"
+  config.vm.hostname = "linux-developer-vm.local"
 
   # virtualbox customizations
   config.vm.provider :virtualbox do |vbox, override|
     vbox.customize ["modifyvm", :id,
-      "--name", "Example Linux Developer VM",
+      "--name", "Linux Developer VM",
       "--memory", 512,
       "--cpus", Etc.nprocessors
     ]
