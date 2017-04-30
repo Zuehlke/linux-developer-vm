@@ -31,10 +31,6 @@ Vagrant::configure("2") do |config|
     /vagrant/scripts/update-vm.sh #{ENV['UPDATE_VM_FLAGS']}
     EOF
 
-  # Logout any existing GUI session to force the use to re-login, which is required
-  # for group or keyboard layout changes to take effect
-  config.vm.provision "shell", privileged: true, inline: "pkill -KILL -u vagrant; true"
-
   # Ensure we cache as much as possible
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.enable :generic, {
