@@ -63,8 +63,7 @@ update_vm() {
 
   # install cookbook dependencies
   step "install cookbook dependencies"
-  rm -rf ./cookbooks
-  berks vendor ./cookbooks
+  berks vendor --delete ./cookbooks
 
   # converge the system via chef-zero
   step "trigger the chef-zero run"
