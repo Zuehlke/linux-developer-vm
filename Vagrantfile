@@ -11,9 +11,6 @@ Vagrant::configure("2") do |config|
     override.vm.box_version = "1.0.0"
   end
 
-  # set the hostname
-  config.vm.hostname = "linux-developer-vm.local"
-
   # virtualbox customizations
   config.vm.provider :virtualbox do |vbox, override|
     vbox.customize ["modifyvm", :id,
@@ -21,9 +18,13 @@ Vagrant::configure("2") do |config|
       "--memory", 1048,
       "--cpus", 4
     ]
-    # yes we have a gui
     vbox.gui = true
   end
+
+  # set the hostname
+  config.vm.hostname = "linux-developer-vm.local"
+  # don't create a new keypair
+  config.ssh.insert_key = false
 
   # Install ChefDK and trigger the Chef run from within the VM
   config.vm.provision "shell", privileged: false, keep_color: true, run: 'always', inline: <<-EOF
