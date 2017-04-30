@@ -56,32 +56,24 @@ update_repo() {
 
 update_vm() {
   big_step "Updating the VM via Chef..."
-
-  # init chefdk shell
-  eval "$(chef shell-init bash)"
   cd $REPO_ROOT/cookbooks/vm
+  eval "$(chef shell-init bash)"
 
-  # install cookbook dependencies
   step "install cookbook dependencies"
   berks vendor --delete ./cookbooks
 
-  # converge the system via chef-zero
-  step "trigger the chef-zero run"
+  step "update the system via chef-zero"
   sudo -H chef-client --config-option node_path=/root/.chef/nodes --local-mode --format=doc --force-formatter --log_level=warn --color --runlist=vm
 }
 
 verify_vm() {
   big_step "Verifying the VM..."
-
-  # init chefdk shell
-  eval "$(chef shell-init bash)"
   cd $REPO_ROOT/cookbooks/vm
+  eval "$(chef shell-init bash)"
 
-  # run lint checks
   step "run foodcritic linting checks"
   foodcritic -f any .
 
-  # run integration tests
   step "run serverspec integration tests"
   rspec --require rspec_junit_formatter --format doc --color --tty --format RspecJunitFormatter --out test/junit-report.xml --format html --out test/test-report.html
 }
