@@ -12,8 +12,8 @@ step() {
   echo -e "\n\n>>>>>> $1\n-------------------------------------\n"
 }
 
-check_chefdk() {
-  big_step "Checking ChefDK..."
+install_chefdk() {
+  big_step "Installing ChefDK..."
   if [[ $(head -n1 /opt/chefdk/version-manifest.txt | grep "chefdk $CHEFDK_VERSION") ]]; then
     echo "ChefDK $CHEFDK_VERSION already installed"
   else
@@ -75,7 +75,7 @@ verify_vm() {
 if [[ "$1" == "--verify-only" ]]; then
   verify_vm
 else
-  check_chefdk
+  install_chefdk
   copy_repo_and_symlink_self
   [[ "$1" == "--pull" ]] && update_repo
   update_vm
