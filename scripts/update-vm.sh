@@ -46,12 +46,6 @@ copy_repo_and_symlink_self() {
   fi
 }
 
-update_repo() {
-  big_step "Pulling latest changes from git..."
-  cd $REPO_ROOT
-  git pull
-}
-
 update_vm() {
   big_step "Updating the VM via Chef..."
   cd $REPO_ROOT/cookbooks/vm
@@ -72,6 +66,12 @@ verify_vm() {
 
   step "run serverspec integration tests"
   rspec --require rspec_junit_formatter --format doc --color --tty --format RspecJunitFormatter --out test/junit-report.xml --format html --out test/test-report.html
+}
+
+update_repo() {
+  big_step "Pulling latest changes from git..."
+  cd $REPO_ROOT
+  git pull
 }
 
 big_step() {
