@@ -36,3 +36,8 @@ You can run these commands from anywhere inside this developer VM:
  * `update-vm --pull` - same as above, but update repo before by pulling the latest changes
  * `update-vm --verify-only` - don't update the VM, only run the Serverspec tests
  * `update-vm --provision-only` - don't run the Serverspec tests, only update the vm
+
+## Getting Started!
+
+Please refer to the separate GETTING_STARTED guide (if available) on how to start
+developing with the specific toolchain in this developer VM.
