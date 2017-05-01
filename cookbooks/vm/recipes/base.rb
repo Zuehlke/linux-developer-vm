@@ -11,10 +11,6 @@ package 'vim' do
   action :install
 end
 
-package 'git' do
-  action :install
-end
-
 # make sure it exists (e.g. when running in docker with ubuntu-14.04 image)
 directory '/home/vagrant/Desktop' do
   owner 'vagrant'

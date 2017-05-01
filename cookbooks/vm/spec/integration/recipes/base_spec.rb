@@ -9,11 +9,6 @@ describe 'vm::base' do
     expect(command('vim --version').exit_status).to eq 0
   end
 
-  it 'installs git' do
-    expect(package('git')).to be_installed
-    expect(command('git --version').exit_status).to eq 0
-  end
-
   it 'places a README on the Desktop' do
     expect(file('/home/vagrant/Desktop/README')).to exist
   end
