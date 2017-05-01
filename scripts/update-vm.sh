@@ -5,13 +5,6 @@ CHEFDK_VERSION="1.3.32"
 TARGET_DIR="/tmp/vagrant-cache/wget"
 REPO_ROOT="/home/vagrant/vm-setup"
 
-big_step() {
-  echo -e "\n=====================================\n>>>>>> $1\n=====================================\n"
-}
-step() {
-  echo -e "\n\n>>>>>> $1\n-------------------------------------\n"
-}
-
 setup_chefdk() {
   big_step "Setting up ChefDK..."
   if [[ $(head -n1 /opt/chefdk/version-manifest.txt | grep "chefdk $CHEFDK_VERSION") ]]; then
@@ -67,6 +60,13 @@ verify_vm() {
 
   step "run serverspec integration tests"
   rspec --require rspec_junit_formatter --format doc --color --tty --format RspecJunitFormatter --out test/junit-report.xml --format html --out test/test-report.html
+}
+
+big_step() {
+  echo -e "\n=====================================\n>>>>>> $1\n=====================================\n"
+}
+step() {
+  echo -e "\n\n>>>>>> $1\n-------------------------------------\n"
 }
 
 #
