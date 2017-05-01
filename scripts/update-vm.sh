@@ -12,8 +12,8 @@ step() {
   echo -e "\n\n>>>>>> $1\n-------------------------------------\n"
 }
 
-install_chefdk() {
-  big_step "Installing ChefDK..."
+setup_chefdk() {
+  big_step "Setting up ChefDK..."
   if [[ $(head -n1 /opt/chefdk/version-manifest.txt | grep "chefdk $CHEFDK_VERSION") ]]; then
     echo "ChefDK $CHEFDK_VERSION already installed"
   else
@@ -24,6 +24,8 @@ install_chefdk() {
     [[ -f $TARGET_DIR/$CHEFDK_DEB ]] || wget --no-verbose -O $TARGET_DIR/$CHEFDK_DEB $CHEFDK_URL
     sudo dpkg -i $TARGET_DIR/$CHEFDK_DEB
   fi
+  # initialize the shell, adding ChefDK binaries to the PATH
+  eval "$(chef shell-init bash)"
 }
 
 copy_repo_and_symlink_self() {
@@ -48,7 +50,6 @@ update_repo() {
 update_vm() {
   big_step "Updating the VM via Chef..."
   cd $REPO_ROOT/cookbooks/vm
-  eval "$(chef shell-init bash)"
 
   step "install cookbook dependencies"
   berks vendor --delete ./cookbooks
@@ -60,7 +61,6 @@ update_vm() {
 verify_vm() {
   big_step "Verifying the VM..."
   cd $REPO_ROOT/cookbooks/vm
-  eval "$(chef shell-init bash)"
 
   step "run foodcritic linting checks"
   foodcritic -f any .
@@ -72,10 +72,10 @@ verify_vm() {
 #
 # main flow
 #
+setup_chefdk
 if [[ "$1" == "--verify-only" ]]; then
   verify_vm
 else
-  install_chefdk
   copy_repo_and_symlink_self
   [[ "$1" == "--pull" ]] && update_repo
   update_vm
