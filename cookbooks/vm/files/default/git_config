@@ -1,0 +1,12 @@
+[core]
+  autocrlf = input
+[push]
+  default = simple
+[alias]
+  co = checkout
+  ci = commit
+  br = branch
+  st = status
+  unstage = reset HEAD --
+  slog = log --pretty=oneline --abbrev-commit
+  graph = log --all --oneline --graph --decorate
