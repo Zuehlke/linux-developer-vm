@@ -2,7 +2,7 @@
 set -e -o pipefail
 
 CHEFDK_VERSION="1.3.32"
-TARGET_DIR="/tmp/vagrant-cache/wget"
+DOWNLOAD_DIR="/tmp/vagrant-cache/wget"
 REPO_ROOT="/home/vagrant/vm-setup"
 
 main() {
@@ -23,11 +23,11 @@ setup_chefdk() {
     echo "ChefDK $CHEFDK_VERSION already installed"
   else
     step "Downloading and installing ChefDK $CHEFDK_VERSION"
-    mkdir -p $TARGET_DIR
+    mkdir -p $DOWNLOAD_DIR
     local CHEFDK_DEB=chefdk_$CHEFDK_VERSION-1_amd64.deb
     local CHEFDK_URL=https://packages.chef.io/files/current/chefdk/$CHEFDK_VERSION/ubuntu/16.04/$CHEFDK_DEB
-    [[ -f $TARGET_DIR/$CHEFDK_DEB ]] || wget --no-verbose -O $TARGET_DIR/$CHEFDK_DEB $CHEFDK_URL
-    sudo dpkg -i $TARGET_DIR/$CHEFDK_DEB
+    [[ -f $DOWNLOAD_DIR/$CHEFDK_DEB ]] || wget --no-verbose -O $DOWNLOAD_DIR/$CHEFDK_DEB $CHEFDK_URL
+    sudo dpkg -i $DOWNLOAD_DIR/$CHEFDK_DEB
   fi
   # initialize the shell, adding ChefDK binaries to the PATH
   eval "$(chef shell-init bash)"
