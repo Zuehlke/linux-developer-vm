@@ -1,0 +1,9 @@
+DEPENDENCIES
+  vm
+    path: .
+    metadata: true
+
+GRAPH
+  apt (6.0.1)
+  vm (0.1.0)
+    apt (= 6.0.1)
