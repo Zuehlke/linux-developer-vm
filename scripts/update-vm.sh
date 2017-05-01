@@ -5,6 +5,18 @@ CHEFDK_VERSION="1.3.32"
 TARGET_DIR="/tmp/vagrant-cache/wget"
 REPO_ROOT="/home/vagrant/vm-setup"
 
+main() {
+  setup_chefdk
+  if [[ "$1" == "--verify-only" ]]; then
+    verify_vm
+  else
+    copy_repo_and_symlink_self
+    [[ "$1" == "--pull" ]] && update_repo
+    update_vm
+    [[ "$1" == "--provision-only" ]] || verify_vm
+  fi
+}
+
 setup_chefdk() {
   big_step "Setting up ChefDK..."
   if [[ $(head -n1 /opt/chefdk/version-manifest.txt 2>/dev/null | grep "chefdk $CHEFDK_VERSION") ]]; then
@@ -69,15 +81,5 @@ step() {
   echo -e "\n\n>>>>>> $1\n-------------------------------------\n"
 }
 
-#
-# main flow
-#
-setup_chefdk
-if [[ "$1" == "--verify-only" ]]; then
-  verify_vm
-else
-  copy_repo_and_symlink_self
-  [[ "$1" == "--pull" ]] && update_repo
-  update_vm
-  [[ "$1" == "--provision-only" ]] || verify_vm
-fi
+# run it!
+main
