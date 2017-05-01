@@ -18,7 +18,7 @@ directory '/home/vagrant/Desktop' do
   group 'vagrant'
   mode '0755'
 end
-cookbook_file '/home/vagrant/Desktop/README' do
+cookbook_file '/home/vagrant/Desktop/README.md' do
   source "desktop_readme.md"
   owner 'vagrant'
   group 'vagrant'

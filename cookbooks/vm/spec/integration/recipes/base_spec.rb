@@ -10,6 +10,6 @@ describe 'vm::base' do
   end
 
   it 'places a README on the Desktop' do
-    expect(file('/home/vagrant/Desktop/README')).to exist
+    expect(file('/home/vagrant/Desktop/README.md')).to exist
   end
 end
