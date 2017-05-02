@@ -106,14 +106,16 @@ should see all tests passing:
 ```
 ...
 ==> default: vm::base
-==> default:   installs vim
 ==> default:   places a README on the Desktop
+==> default:
+==> default: vm::vim
+==> default:   installs Vi IMproved
 ==> default:
 ==> default: update-vm.sh
 ==> default:   installs chefdk 1.3.32
 ==> default:   symlinks the update-vm script to /usr/local/bin/
 ==> default:
-==> default: Finished in 0.1026 seconds (files took 0.58484 seconds to load)
+==> default: Finished in 0.09228 seconds (files took 0.59519 seconds to load)
 ==> default: 4 examples, 0 failures
 ```
 

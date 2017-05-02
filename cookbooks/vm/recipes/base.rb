@@ -1,12 +1,8 @@
 
+# update the apt cache
 include_recipe 'apt'
 
-# base packages
-package 'vim' do
-  action :install
-end#
-
-# create a README on the Desktop
+# place a README on the Desktop
 directory '/home/vagrant/Desktop' do
   owner 'vagrant'
   group 'vagrant'
