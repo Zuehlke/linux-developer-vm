@@ -1,47 +1,16 @@
-#
-# Cookbook Name:: vm
-# Recipe:: base - minimum installation we need for every developer VM
-#
-# Copyright (c) 2015 The Authors, All Rights Reserved.
-#
 
+# update the apt cache
 include_recipe 'apt'
 
-package 'vim' do
-  action :install
-end
-
-package 'git' do
-  action :install
-end
-
-# make sure it exists (e.g. when running in docker with ubuntu-14.04 image)
+# place a README on the Desktop
 directory '/home/vagrant/Desktop' do
   owner 'vagrant'
   group 'vagrant'
   mode '0755'
-  action :create
 end
-
-file '/home/vagrant/Desktop/README' do
+cookbook_file '/home/vagrant/Desktop/README.md' do
+  source "desktop_readme.md"
   owner 'vagrant'
   group 'vagrant'
   mode '0644'
-  action :create
-  content <<-EOF
-Developer VM README
-===================
-
-For applying the current configuration to the VM:
-
-  * simply run `update-vm`
-
-For updating to the latest configuration and applying that:
-
-  * simply run `update-vm --pull`
-
-For verifying the current configuration without applying anything:
-
-  * simply run `update-vm --verify-only`
-EOF
 end

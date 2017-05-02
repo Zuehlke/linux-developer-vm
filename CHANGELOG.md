@@ -4,7 +4,6 @@
 
 The initial release of the developer VM, including:
 
- * Git
  * ChefDK
  * VIM
 

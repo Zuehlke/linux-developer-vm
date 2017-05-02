@@ -11,7 +11,7 @@ It's meant to be copy/pasted and filled with life. The `cookbooks/vm` directory
 contains the recipes for setting up the VM and the tests that come along with it.
 All your specific customizations go in there!
 
-Looking for some more concrete / real life examples?
+This is just a bare skeleton template project. For more concrete / real life examples please refer to:
 
  * https://github.com/tknerr/linus-kitchen
  * https://github.com/Zuehlke/java-developer-vm
@@ -23,16 +23,15 @@ Looking for some more concrete / real life examples?
 
 These are the main tools included in this developer VM (see CHANGELOG for the specific versions):
 
- * [ChefDK](https://downloads.chef.io/chef-dk/)
- * [Git](https://git-scm.org/)
- * [VIM](http://www.vim.org/)
+ * [ChefDK](https://downloads.chef.io/chef-dk/) - for managing / installing this developer VM
+ * [VIM](http://www.vim.org/) - the most minimal development toolchain I could come up with ;-)
 
 ### Tweaks and Settings
 
 Other tweaks and settings worth mentioning:
 
- * placed a README file on the Desktop to guide first time users after they logged in to the VM
- * symlinked [`update-vm.sh`](scripts/update-vm.sh) to `/usr/local/bin/update-vm` so it's in the `$PATH` and can be used for updating the VM from the inside (see below)
+ * places a `README.md` file on the Desktop to guide first time users after they logged in to the VM
+ * symlinks [`update-vm.sh`](scripts/update-vm.sh) to `/usr/local/bin/update-vm` so it's in the `$PATH` and can be used for updating the VM from the inside (see below)
 
 
 ## Usage
@@ -84,7 +83,7 @@ sudo dpkg-reconfigure locales
 You only need [VirtualBox](http://virtualbox.org/wiki/Downloads) and [Vagrant](http://www.vagrantup.com/)
 installed.
 
-All other requirements, along with ChefDK and Git will be installed *inside the Vagrant VM* during provisioning, i.e. you don't need them installed on your host machine.
+All other requirements, including with ChefDK will be installed *inside the Vagrant VM* during provisioning, i.e. you don't need them installed on your host machine.
 
 ### Basic Development Workflow
 
@@ -95,7 +94,7 @@ $ vagrant up
 
 This will take a while, as it will do quite a few things inside the VM:
 
- 1. Download and install [Git](https://git-scm.org/) and [ChefDK](https://downloads.chef.io/chef-dk/)
+ 1. Download and install [ChefDK](https://downloads.chef.io/chef-dk/)
  1. Copy the current directory into the VM (will be placed in `~/vm-setup`)
  1. Install cookbook dependencies via [Berkshelf](http://berkshelf.com/) to `~/vm-setup/cookbooks/vm/cookbooks`
  1. Trigger a [Chef-Zero](https://www.chef.io/blog/2013/10/31/chef-client-z-from-zero-to-chef-in-8-5-seconds/) run to apply the `~/vm-setup/cookbooks/vm/recipes` to the VM (see "What's included?")
@@ -107,17 +106,17 @@ should see all tests passing:
 ```
 ...
 ==> default: vm::base
-==> default:   installs vim
-==> default:   installs git
 ==> default:   places a README on the Desktop
+==> default:
+==> default: vm::vim
+==> default:   installs Vi IMproved
 ==> default:
 ==> default: update-vm.sh
 ==> default:   installs chefdk 1.3.32
 ==> default:   symlinks the update-vm script to /usr/local/bin/
 ==> default:
-==> default: Finished in 0.11563 seconds (files took 0.74991 seconds to load)
-==> default: 5 examples, 0 failures
-...
+==> default: Finished in 0.09228 seconds (files took 0.59519 seconds to load)
+==> default: 4 examples, 0 failures
 ```
 
 If these are passing as expected, you can continue developing on the Chef recipes within this repo.
