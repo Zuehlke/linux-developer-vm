@@ -15,19 +15,6 @@ If you have a totally different keymap (e.g. on a MacBook) you can always reconf
 sudo dpkg-reconfigure keyboard-configuration
 ```
 
-## Initial Git Setup
-
-Generate a new SSH key (and add it to your Github account):
-```
-ssh-keygen -t rsa -b 4096 -C "your.name@developer-vm"
-```
-
-Configure the Git username / email:
-```
-git config --global user.name "Your Name"
-git config --global user.email "your.name@provider.com"
-```
-
 ## Updating this Developer VM
 
 You can run these commands from anywhere inside this developer VM:

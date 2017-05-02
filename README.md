@@ -24,7 +24,6 @@ Looking for some more concrete / real life examples?
 These are the main tools included in this developer VM (see CHANGELOG for the specific versions):
 
  * [ChefDK](https://downloads.chef.io/chef-dk/)
- * [Git](https://git-scm.org/)
  * [VIM](http://www.vim.org/)
 
 ### Tweaks and Settings
@@ -32,7 +31,6 @@ These are the main tools included in this developer VM (see CHANGELOG for the sp
 Other tweaks and settings worth mentioning:
 
  * placed a `README.md` file on the Desktop to guide first time users after they logged in to the VM
- * added an initial `~/.gitconfig` file with a few useful aliases
  * symlinked [`update-vm.sh`](scripts/update-vm.sh) to `/usr/local/bin/update-vm` so it's in the `$PATH` and can be used for updating the VM from the inside (see below)
 
 
@@ -85,7 +83,7 @@ sudo dpkg-reconfigure locales
 You only need [VirtualBox](http://virtualbox.org/wiki/Downloads) and [Vagrant](http://www.vagrantup.com/)
 installed.
 
-All other requirements, along with ChefDK and Git will be installed *inside the Vagrant VM* during provisioning, i.e. you don't need them installed on your host machine.
+All other requirements, including with ChefDK will be installed *inside the Vagrant VM* during provisioning, i.e. you don't need them installed on your host machine.
 
 ### Basic Development Workflow
 
@@ -96,7 +94,7 @@ $ vagrant up
 
 This will take a while, as it will do quite a few things inside the VM:
 
- 1. Download and install [Git](https://git-scm.org/) and [ChefDK](https://downloads.chef.io/chef-dk/)
+ 1. Download and install [ChefDK](https://downloads.chef.io/chef-dk/)
  1. Copy the current directory into the VM (will be placed in `~/vm-setup`)
  1. Install cookbook dependencies via [Berkshelf](http://berkshelf.com/) to `~/vm-setup/cookbooks/vm/cookbooks`
  1. Trigger a [Chef-Zero](https://www.chef.io/blog/2013/10/31/chef-client-z-from-zero-to-chef-in-8-5-seconds/) run to apply the `~/vm-setup/cookbooks/vm/recipes` to the VM (see "What's included?")
@@ -111,16 +109,12 @@ should see all tests passing:
 ==> default:   installs vim
 ==> default:   places a README on the Desktop
 ==> default:
-==> default: vm::git
-==> default:   installs git
-==> default:   adds an initial ~/.gitconfig with useful aliases
-==> default:
 ==> default: update-vm.sh
 ==> default:   installs chefdk 1.3.32
 ==> default:   symlinks the update-vm script to /usr/local/bin/
 ==> default:
 ==> default: Finished in 0.1026 seconds (files took 0.58484 seconds to load)
-==> default: 6 examples, 0 failures
+==> default: 4 examples, 0 failures
 ```
 
 If these are passing as expected, you can continue developing on the Chef recipes within this repo.
