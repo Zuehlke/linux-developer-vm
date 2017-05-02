@@ -31,7 +31,8 @@ These are the main tools included in this developer VM (see CHANGELOG for the sp
 
 Other tweaks and settings worth mentioning:
 
- * placed a README file on the Desktop to guide first time users after they logged in to the VM
+ * placed a `README.md` file on the Desktop to guide first time users after they logged in to the VM
+ * added an initial `~/.gitconfig` file with a few useful aliases
  * symlinked [`update-vm.sh`](scripts/update-vm.sh) to `/usr/local/bin/update-vm` so it's in the `$PATH` and can be used for updating the VM from the inside (see below)
 
 
