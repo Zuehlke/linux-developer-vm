@@ -4,16 +4,17 @@ set -e -o pipefail
 CHEFDK_VERSION="1.3.32"
 DOWNLOAD_DIR="/tmp/vagrant-cache/wget"
 REPO_ROOT="/home/vagrant/vm-setup"
+FLAGS=$1
 
 main() {
   setup_chefdk
-  if [[ "$1" == "--verify-only" ]]; then
+  if [[ "$FLAGS" == "--verify-only" ]]; then
     verify_vm
   else
     copy_repo_and_symlink_self
-    [[ "$1" == "--pull" ]] && update_repo
+    [[ "$FLAGS" == "--pull" ]] && update_repo
     update_vm
-    [[ "$1" == "--provision-only" ]] || verify_vm
+    [[ "$FLAGS" == "--provision-only" ]] || verify_vm
   fi
 }
 
