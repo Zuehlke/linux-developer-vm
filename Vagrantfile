@@ -34,7 +34,7 @@ Vagrant::configure("2") do |config|
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.enable :generic, {
       "chef_file_cache" => { cache_dir: "/root/.chef/local-mode-cache/cache" },
-      "berks_cookbooks_cache" => { cache_dir: "/home/vagrant/.berkshelf/cookbooks" }
+      "berks_cache" => { cache_dir: "/home/vagrant/.berkshelf" }
     }
   end
 end
