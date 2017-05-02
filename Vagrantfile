@@ -26,9 +26,12 @@ Vagrant::configure("2") do |config|
   # don't create a new keypair
   config.ssh.insert_key = false
 
+  # Create new login user and pre-provision the deploy key
+  config.vm.provision "shell", privileged: true, path: 'scripts/setup-vm-user.sh', args: 'user user'
+
   # Install ChefDK and trigger the Chef run from within the VM
-  config.vm.provision "shell", privileged: false, keep_color: true, run: 'always',
-    inline: "/vagrant/scripts/update-vm.sh #{ENV['UPDATE_VM_FLAGS']}"
+  config.vm.provision "shell", privileged: true, keep_color: true, run: 'always',
+    inline: "sudo -i -u user /vagrant/scripts/update-vm.sh #{ENV['UPDATE_VM_FLAGS']}"
 
   # Ensure we cache as much as possible
   if Vagrant.has_plugin?("vagrant-cachier")

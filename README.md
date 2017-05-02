@@ -45,8 +45,8 @@ The latest version of this developer VM can be downloaded as a VM image from her
 After downloading the .ova file you can import it into VirtualBox via `File -> Import Appliance...`.
 Once imported, you can simply start the VM and log in:
 
- * username: "vagrant"
- * password: "vagrant"
+ * username: "user"
+ * password: "user"
 
 From then on just open a terminal and you will have all of the tools available (see "What's included?").
 
@@ -94,6 +94,7 @@ $ vagrant up
 
 This will take a while, as it will do quite a few things inside the VM:
 
+ 1. Setup a new user account ('user') under which the VM will be provisioned
  1. Download and install [ChefDK](https://downloads.chef.io/chef-dk/)
  1. Copy the current directory into the VM (will be placed in `~/vm-setup`)
  1. Install cookbook dependencies via [Berkshelf](http://berkshelf.com/) to `~/vm-setup/cookbooks/vm/cookbooks`
@@ -141,6 +142,12 @@ do a few cleanup steps before packaging the VM.
 First, unmount the /vagrant shared folder:
 ```
 $ vagrant ssh -c "sudo umount /vagrant -f"
+```
+
+Then remove the vagrant user account:
+```
+$ vagrant ssh -c "sudo pkill -KILL -u vagrant"
+$ vagrant ssh -c "sudo userdel -f -r vagrant"
 ```
 
 Finally, shutdown the VM, remove the sharedfolder, and export the VM as an .ova file:
