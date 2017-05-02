@@ -112,14 +112,14 @@ should see all tests passing:
 ==> default:
 ==> default: vm::git
 ==> default:   installs git
+==> default:   adds an initial ~/.gitconfig with useful aliases
 ==> default:
 ==> default: update-vm.sh
 ==> default:   installs chefdk 1.3.32
 ==> default:   symlinks the update-vm script to /usr/local/bin/
 ==> default:
-==> default: Finished in 0.10161 seconds (files took 0.68069 seconds to load)
-==> default: 5 examples, 0 failures
-...
+==> default: Finished in 0.1026 seconds (files took 0.58484 seconds to load)
+==> default: 6 examples, 0 failures
 ```
 
 If these are passing as expected, you can continue developing on the Chef recipes within this repo.
