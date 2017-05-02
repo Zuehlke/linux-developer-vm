@@ -11,7 +11,7 @@ It's meant to be copy/pasted and filled with life. The `cookbooks/vm` directory
 contains the recipes for setting up the VM and the tests that come along with it.
 All your specific customizations go in there!
 
-Looking for some more concrete / real life examples?
+This is just a bare skeleton template project. For more concrete / real life examples please refer to:
 
  * https://github.com/tknerr/linus-kitchen
  * https://github.com/Zuehlke/java-developer-vm
@@ -23,15 +23,15 @@ Looking for some more concrete / real life examples?
 
 These are the main tools included in this developer VM (see CHANGELOG for the specific versions):
 
- * [ChefDK](https://downloads.chef.io/chef-dk/)
- * [VIM](http://www.vim.org/)
+ * [ChefDK](https://downloads.chef.io/chef-dk/) - for managing / installing this developer VM
+ * [VIM](http://www.vim.org/) - the most minimal development toolchain I could come up with ;-)
 
 ### Tweaks and Settings
 
 Other tweaks and settings worth mentioning:
 
- * placed a `README.md` file on the Desktop to guide first time users after they logged in to the VM
- * symlinked [`update-vm.sh`](scripts/update-vm.sh) to `/usr/local/bin/update-vm` so it's in the `$PATH` and can be used for updating the VM from the inside (see below)
+ * places a `README.md` file on the Desktop to guide first time users after they logged in to the VM
+ * symlinks [`update-vm.sh`](scripts/update-vm.sh) to `/usr/local/bin/update-vm` so it's in the `$PATH` and can be used for updating the VM from the inside (see below)
 
 
 ## Usage
