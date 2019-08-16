@@ -1,20 +1,20 @@
 #!/bin/bash
 set -e -o pipefail
 
-CHEFDK_VERSION="1.3.40"
-DOWNLOAD_DIR="/tmp/vagrant-cache/wget"
-REPO_ROOT="/home/vagrant/vm-setup"
-FLAGS=$1
+CHEFDK_VERSION=3.9.0
+DOWNLOAD_DIR=/tmp/vagrant-cache/wget
+REPO_ROOT=~/vm-setup
+CMD_LINE_FLAG=$1
 
 main() {
   setup_chefdk
-  if [[ "$FLAGS" == "--verify-only" ]]; then
+  if [[ "$CMD_LINE_FLAG" == "--verify-only" ]]; then
     verify_vm
   else
     copy_repo_and_symlink_self
-    [[ "$FLAGS" == "--pull" ]] && update_repo
+    [[ "$CMD_LINE_FLAG" == "--pull" ]] && update_repo
     update_vm
-    [[ "$FLAGS" == "--provision-only" ]] || verify_vm
+    [[ "$CMD_LINE_FLAG" == "--provision-only" ]] || verify_vm
   fi
 }
 
@@ -24,11 +24,7 @@ setup_chefdk() {
     echo "ChefDK $CHEFDK_VERSION already installed"
   else
     step "Downloading and installing ChefDK $CHEFDK_VERSION"
-    mkdir -p $DOWNLOAD_DIR
-    local CHEFDK_DEB=chefdk_$CHEFDK_VERSION-1_amd64.deb
-    local CHEFDK_URL=https://packages.chef.io/files/stable/chefdk/$CHEFDK_VERSION/ubuntu/16.04/$CHEFDK_DEB
-    [[ -f $DOWNLOAD_DIR/$CHEFDK_DEB ]] || wget --no-verbose -O $DOWNLOAD_DIR/$CHEFDK_DEB $CHEFDK_URL
-    sudo dpkg -i $DOWNLOAD_DIR/$CHEFDK_DEB
+    curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chefdk -c stable -v $CHEFDK_VERSION -d /tmp/vagrant-cache
   fi
   # initialize the shell, adding ChefDK binaries to the PATH
   eval "$(chef shell-init bash)"
