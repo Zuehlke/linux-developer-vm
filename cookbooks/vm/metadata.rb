@@ -12,4 +12,4 @@ chef_version '~> 12'
 
 supports 'ubuntu'
 
-depends 'apt', '6.0.1'
+depends 'apt', '7.1.1'
